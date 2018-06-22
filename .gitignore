@@ -1,0 +1,16 @@
+### https://raw.github.com/github/gitignore/9ef1596ac14f77ddd79a74e3f621ee117022e107/Global/Vim.gitignore
+
+# swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+# session
+Session.vim
+# temporary
+.netrwhist
+*~
+# auto-generated tag files
+tags
+
+
