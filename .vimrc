@@ -14,6 +14,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'cespare/vim-toml'
 " Initialize plugin system
 call plug#end()
 
