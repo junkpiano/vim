@@ -8,13 +8,20 @@ set runtimepath+=$GOROOT/misc/vim
 call plug#begin('~/.vim/plugged')
 Plug 'flazz/vim-colorschemes'
 Plug 'flowtype/vim-flow', {'autoload':{'filetypes':['javascript']}}
-Plug 'Valloric/YouCompleteMe'
 Plug 'othree/yajs.vim', {'autoload':{'filetypes':['javascript']}}
 Plug 'pangloss/vim-javascript'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'cespare/vim-toml'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'mattn/vim-goimports'
+Plug 'vim-airline/vim-airline'
 " Initialize plugin system
 call plug#end()
 
@@ -26,16 +33,6 @@ if &term =~ "xterm-256color"
     set t_Co=256
     syntax enable 
 endif
-
-"" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" " Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -49,10 +46,19 @@ au BufRead,BufNewFile,BufReadPre *.coffee   set filetype=coffee
 " set indent level 
 autocmd FileType coffee     setlocal sw=2 sts=2 ts=2 et
 
-" Go
-exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-set completeopt=menu,preview
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
+" LSP
+function! s:on_lsp_buffer_enabled() abort
+  setlocal omnifunc=lsp#complete
+  setlocal signcolumn=yes
+  nmap <buffer> gd <plug>(lsp-definition)
+  nmap <buffer> <f2> <plug>(lsp-rename)
+  inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+endfunction
+
+augroup lsp_install
+  au!
+  autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 set title
 set autochdir
